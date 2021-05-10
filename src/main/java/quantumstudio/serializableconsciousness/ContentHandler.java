@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import quantumstudio.serializableconsciousness.block.FeldsparBlock;
 import quantumstudio.serializableconsciousness.group.ModItemGroup;
+import quantumstudio.serializableconsciousness.item.FeldsparUglyDustItem;
 
 public class ContentHandler {
     public static final String MODID = "serializableconsciousness";
@@ -33,5 +34,5 @@ public class ContentHandler {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
     public static final RegistryObject<Item> feldsparItemBlock = ITEMS.register("feldspar", () -> new BlockItem(feldsparBlock.get(), new Item.Properties().group(modGroup)));
-
+    public static final RegistryObject<Item> feldsparUglyDustItem = ITEMS.register("feldspar_ugly_dust", FeldsparUglyDustItem::new);
 }
