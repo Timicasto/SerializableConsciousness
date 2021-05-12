@@ -1,39 +1,61 @@
 package cc.sukazyo.sericons.world;
 
-import cc.sukazyo.sericons.ContentHandler;
-import net.minecraft.world.level.block.state.BlockState;
+import cc.sukazyo.sericons.SeriCons;
+import cc.sukazyo.sericons.register.RegistryBlocks;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RangeDecoratorConfiguration;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.fml.ModLoader;
 
-import java.util.Random;
+import javax.annotation.Nonnull;
 
 public class OreGen {
-    public static ConfiguredFeature<?, ?> fledspar;
+
+    private static ConfiguredFeature<?, ?> FELDSPAR;
 
     public static void initFeatures() {
-        fledspar = buildFeature(Feature.ORE, ContentHandler.feldsparBlock.get().defaultBlockState(),
-                new OrePropertiesWrapper(new RangeDecoratorConfiguration(12, 0, 35), new Random().nextInt(4) + 2, 2));
-        registerFeature(ContentHandler.MODID, "feldspar_vein", fledspar);
-        ContentHandler.logger.info("Registered OreGenConf " + fledspar);
+        if (ModLoader.isLoadingStateValid()) {
+            FELDSPAR = getOreFeature(Feature.ORE, RegistryBlocks.FELDSPAR, "feldspar_vein",
+                    new OreConfig(12, 0, 35, 20, 8));
+        }
+    }
+
+    public static void onBiomeLoading(@Nonnull BiomeLoadingEvent event) {
+        Biome.BiomeCategory category = event.getCategory();
+        if (category != Biome.BiomeCategory.THEEND &&
+                category != Biome.BiomeCategory.NETHER &&
+                category != Biome.BiomeCategory.NONE) {
+            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FELDSPAR);
+        }
     }
 
     /**
      * This Method is Used For Generating |ConfiguredFeature|
      *
      * @param feature Feature Type (Ore, Tree, and so on)
-     * @param state   Generating Block
+     * @param block   Generating Block
      * @param config  Wrapped Config (Including Size, Range And Chance)
      * @return ConfiguredFeature with defined config
      */
-    public static ConfiguredFeature<?, ?> buildFeature(Feature<OreConfiguration> feature, BlockState state, OrePropertiesWrapper config) {
-        return feature.configured(new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE, state, config.size))
-                .range(config.config.maximum).squared().count(config.retryCount);
-    }
-
-    @Deprecated
-    public static void registerFeature(String modid, String key, ConfiguredFeature<?, ?> feature) {
-        //Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(modid, key), feature);
+    @SuppressWarnings("SameParameterValue")
+    private static ConfiguredFeature<?, ?> getOreFeature(Feature<OreConfiguration> feature, Block block,
+                                                         String key, OreConfig config) {
+        OreConfiguration configuration = new OreConfiguration(OreConfiguration.Predicates.NATURAL_STONE,
+                block.defaultBlockState(), config.maxSize);
+        ConfiguredFeature<?, ?> configured = feature.configured(configuration)
+                .decorated(FeatureDecorator.RANGE.configured(new RangeDecoratorConfiguration(
+                        config.bottomOffset, config.topOffset, config.maximum)))
+                .squared()
+                .count(config.perChunk);
+        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(SeriCons.MODID, key), configured);
     }
 }

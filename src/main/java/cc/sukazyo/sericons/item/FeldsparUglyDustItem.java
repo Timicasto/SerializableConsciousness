@@ -1,11 +1,12 @@
 package cc.sukazyo.sericons.item;
 
-import cc.sukazyo.sericons.ContentHandler;
 import net.minecraft.world.item.Item;
+
+import javax.annotation.Nonnull;
 
 public class FeldsparUglyDustItem extends Item {
 
-    public FeldsparUglyDustItem() {
-        super(new Properties().tab(ContentHandler.CREATIVE_TAB));
+    public FeldsparUglyDustItem(@Nonnull Item.Properties props) {
+        super(props);
     }
 }
