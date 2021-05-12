@@ -1,6 +1,6 @@
 package cc.sukazyo.sericons.world;
 
-import cc.sukazyo.sericons.SeriCons;
+import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
@@ -56,6 +56,6 @@ public class OreGen {
                         config.bottomOffset, config.topOffset, config.maximum)))
                 .squared()
                 .count(config.perChunk);
-        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(SeriCons.MODID, key), configured);
+        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(SeriConsMod.MODID, key), configured);
     }
 }
