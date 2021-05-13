@@ -28,6 +28,9 @@ loom {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://maven.minecraftforge.net/'
+    }
 }
 
 sourceSets {
@@ -95,5 +98,6 @@ publishing {
                 builtBy remapSourcesJar
             }
         }
+
     }
 }

@@ -2,6 +2,7 @@ package cc.sukazyo.sericons.world;
 
 import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.register.RegistryBlocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
