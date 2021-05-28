@@ -6,19 +6,27 @@ import cc.sukazyo.sericons.block.CreativeEnergyProviderBlock;
 import cc.sukazyo.sericons.block.FeldsparBlock;
 import cc.sukazyo.sericons.block.multiblocks.MultiBlockMachine;
 import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
+import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import cc.sukazyo.sericons.item.FeldsparUglyDustItem;
 import cc.sukazyo.sericons.loot.ModLootTables;
+import cc.sukazyo.sericons.screen.MetalSmelterScreen;
 import cc.sukazyo.sericons.tile.CreativeEnergyProviderTileEntity;
 import cc.sukazyo.sericons.tile.MetalSmelterTileEntity;
 import cc.sukazyo.sericons.world.OreGen;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -27,7 +35,6 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = SeriConsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class Registration {
-
 
     public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(SeriConsMod.MODID) {
         @Override
@@ -49,19 +56,18 @@ public final class Registration {
     @SubscribeEvent
     public static void registerBlocks(@Nonnull RegistryEvent.Register<Block> event) {
         final IForgeRegistry<Block> reg = event.getRegistry();
-        reg.registerAll(
-                new FeldsparBlock().setRegistryName("feldspar"),
-                new MultiBlockMachine().setRegistryName("multiblock_machine"),
-                new CreativeEnergyProviderBlock().setRegistryName("creative_energy")
-        );
-
+        reg.register(new FeldsparBlock().setRegistryName("feldspar"));
+        reg.register(new MultiBlockMachine().setRegistryName("multiblock_machine"));
+        reg.register(new CreativeEnergyProviderBlock().setRegistryName("creative_energy"));
     }
 
     @SubscribeEvent
     public static void registerTileEntities(@Nonnull RegistryEvent.Register<BlockEntityType<?>> event) {
         event.getRegistry().registerAll(
-                BlockEntityType.Builder.of(MetalSmelterTileEntity::new, RegistryBlocks.MULTIBLOCK_MACHINE).build(null).setRegistryName("multiblock_machine"),
-                BlockEntityType.Builder.of(CreativeEnergyProviderTileEntity::new, RegistryBlocks.CREATIVE_ENERGY).build(null).setRegistryName("creative_energy_provider")
+                BlockEntityType.Builder.of(MetalSmelterTileEntity::new, RegistryBlocks.MULTIBLOCK_MACHINE)
+                        .build(null).setRegistryName("metal_smelter"),
+                BlockEntityType.Builder.of(CreativeEnergyProviderTileEntity::new, RegistryBlocks.CREATIVE_ENERGY)
+                        .build(null).setRegistryName("creative_energy_provider")
         );
     }
 
@@ -75,6 +81,13 @@ public final class Registration {
     }
 
     @SubscribeEvent
+    public static void registerMenus(@Nonnull RegistryEvent.Register<MenuType<?>> event) {
+        event.getRegistry().register(
+                IForgeContainerType.create(MetalSmelterMenu::new).setRegistryName("metal_smelter")
+        );
+    }
+
+    @SubscribeEvent
     public static void gatherData(@Nonnull GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
@@ -82,5 +95,13 @@ public final class Registration {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = SeriConsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static final class Client {
 
+        @SubscribeEvent
+        public static void setup(FMLClientSetupEvent event) {
+            MenuScreens.register(RegistryBlocks.METAL_SMELTER_MENU, MetalSmelterScreen::new);
+        }
+    }
 }

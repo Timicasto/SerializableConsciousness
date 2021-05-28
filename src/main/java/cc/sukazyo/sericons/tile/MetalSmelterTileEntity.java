@@ -6,16 +6,25 @@ import cc.sukazyo.sericons.api.energy.EnergyWrapper;
 import cc.sukazyo.sericons.api.utils.DataUtils;
 import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
 import cc.sukazyo.sericons.crafting.MetalSmelterRecipe;
+import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,11 +34,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSmelterTileEntity, MetalSmelterRecipe> /*implements IContainerFactory*/ {
+public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSmelterTileEntity, MetalSmelterRecipe> implements MenuProvider {
     // This Field is Only for Testing.
     boolean first = true;
+
     public MetalSmelterTileEntity() {
-        super(new int[] {5, 6, 5}, RegistryBlocks.METAL_SMELTER, 32000, true, MultiblockMetalSmelter.INSTANCE);
+        super(RegistryBlocks.METAL_SMELTER, new int[]{5, 6, 5}, 32000, true, MultiblockMetalSmelter.INSTANCE);
     }
 
     public List<ItemStack> slots = new ArrayList<>();
@@ -67,7 +77,7 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
                         }
                     }
                 }
-                if (!usedSlots.contains(0)) {
+                if (!slots.isEmpty() && !usedSlots.contains(0)) {
                     ItemStack stack = this.slots.get(0);
                     MetalSmelterRecipe recipe = MetalSmelterRecipe.searchByIn(stack);
                     if (recipe != null) {
@@ -233,20 +243,29 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
                 return null;
             }
             switch (pos) {
-                case 10 :
-                    return LazyOptional.of(() -> (T)out);
+                case 10:
+                    return LazyOptional.of(() -> (T) out);
                 case 137:
-                    return LazyOptional.of(() -> (T)ore);
+                    return LazyOptional.of(() -> (T) ore);
                 case 138:
-                    return LazyOptional.of(() -> (T)changer);
+                    return LazyOptional.of(() -> (T) changer);
                 case 14:
-                    return LazyOptional.of(() -> (T)fuel);
+                    return LazyOptional.of(() -> (T) fuel);
             }
         }
         return super.getCapability(cap, side);
     }
 
+    @Override
+    public Component getDisplayName() {
+        return TextComponent.EMPTY;
+    }
 
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int containerId, Inventory inv, Player player) {
+        return new MetalSmelterMenu(containerId, inv, this);
+    }
 
     public static class MetalSmelterProcess extends ProcessInside<MetalSmelterRecipe> {
 

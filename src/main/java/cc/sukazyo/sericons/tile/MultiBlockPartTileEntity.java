@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
@@ -37,7 +36,7 @@ public abstract class MultiBlockPartTileEntity<T extends MultiBlockPartTileEntit
     // X Y Z
     protected final int[] structureDims;
 
-    protected MultiBlockPartTileEntity(int[] structureDims, BlockEntityType<?> type) {
+    protected MultiBlockPartTileEntity(BlockEntityType<?> type, int[] structureDims) {
         super(type);
         this.structureDims = structureDims;
     }

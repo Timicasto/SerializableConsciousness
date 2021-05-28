@@ -41,8 +41,8 @@ public abstract class MultiBlockMachineTileEntity<T extends MultiBlockMachineTil
     public int controlTrigger = 0;
     public boolean triggerOn;
 
-    public MultiBlockMachineTileEntity(int[] structureDims, BlockEntityType<?> type, int energyStorageCapacity, boolean canBeControlled, MultiBlockRegistryHandler.IMultiblock instance) {
-        super(structureDims, type);
+    public MultiBlockMachineTileEntity(BlockEntityType<?> type, int[] structureDims, int energyStorageCapacity, boolean canBeControlled, MultiBlockRegistryHandler.IMultiblock instance) {
+        super(type, structureDims);
         this.energyStorage = new EnergyWrapper.CustomEnergyStorage(energyStorageCapacity);
         this.canBeControlled = canBeControlled;
         this.instance = instance;

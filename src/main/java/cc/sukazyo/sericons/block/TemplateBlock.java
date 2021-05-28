@@ -57,7 +57,7 @@ public abstract class TemplateBlock<E extends Enum<E> & IEnumPropertyBlock> exte
         }
         this.additional = properties.toArray(new Property[properties.size()]);
         this.registerDefaultState(defaultState());
-        this.setRegistryName(name);
+        //this.setRegistryName(name);
     }
 
     @Override

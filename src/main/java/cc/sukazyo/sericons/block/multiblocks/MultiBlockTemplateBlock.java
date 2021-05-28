@@ -21,7 +21,7 @@ import net.minecraft.world.phys.HitResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MultiBlockTemplateBlock<E extends Enum<E> & IEnumPropertyBlock> extends TEBlock {
+public abstract class MultiBlockTemplateBlock<E extends Enum<E> & IEnumPropertyBlock> extends TEBlock<E> {
     public MultiBlockTemplateBlock(String name, Material material, EnumProperty<E> property, Object... additional) {
         super(name, material, property, combine(additional, StatePropertiesHandler.HORIZONTAL_FACING, StatePropertiesHandler.SLAVE_MULTIBLOCK));
     }
