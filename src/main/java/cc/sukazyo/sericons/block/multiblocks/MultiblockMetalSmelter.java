@@ -132,7 +132,7 @@ public class MultiblockMetalSmelter implements MultiBlockRegistryHandler.IMultib
                         if (structure[x][y + 1][z + 2].getBlock() == Blocks.AIR) {
                             int zz = mirrored ? -z : z;
                             BlockPos startx = start.relative(direction, x).relative(direction.getClockWise(), zz).offset(0, y, 0);
-                            level.setBlock(startx, RegistryBlocks.MULTIBLOCK_MACHINE.state(EnumMachines.METAL_SMELTER.ordinal()), 3);
+                            level.setBlock(startx, ((MultiBlockMachine)RegistryBlocks.MULTIBLOCK_MACHINE).state(EnumMachines.METAL_SMELTER.ordinal()), 3);
                             BlockEntity current = level.getBlockEntity(startx);
                             if (current instanceof MetalSmelterTileEntity) {
                                 MetalSmelterTileEntity te = (MetalSmelterTileEntity)current;

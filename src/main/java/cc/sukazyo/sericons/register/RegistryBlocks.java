@@ -15,7 +15,11 @@ import net.minecraftforge.registries.ObjectHolder;
 public class RegistryBlocks {
 
     public static final Block FELDSPAR = Blocks.AIR;
+    public static final Block CREATIVE_ENERGY = Blocks.AIR;
 
-    public static final MultiBlockMachine MULTIBLOCK_MACHINE = (MultiBlockMachine) new MultiBlockMachine();
+    public static final Block MULTIBLOCK_MACHINE = Blocks.AIR;
+
+    public static final BlockEntityType<?> METAL_SMELTER = BlockEntityType.FURNACE;
+    public static final BlockEntityType<?> CREATIVE_ENERGY_PROVIDER = BlockEntityType.FURNACE;
 
 }

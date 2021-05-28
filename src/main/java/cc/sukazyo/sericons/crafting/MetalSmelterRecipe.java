@@ -45,5 +45,39 @@ public class MetalSmelterRecipe extends MachineRecipe {
         return tag;
     }
 
+    public static MetalSmelterRecipe register(ItemStack out, ItemStack mainIn, ItemStack changer, ItemStack slag, int time, int power) {
+        MetalSmelterRecipe recipe = new MetalSmelterRecipe(out, mainIn, changer, slag, time, power);
+        if (recipe.mainInput != null) {
+            recipes.add(recipe);
+        }
+        return recipe;
+    }
 
+    public boolean valid(ItemStack stack) {
+        return this.mainInput != null && this.mainInput.equals(stack);
+    }
+
+    public static MetalSmelterRecipe searchByIn(ItemStack stack) {
+        for (MetalSmelterRecipe recipe : recipes) {
+            if (recipe != null && recipe.valid(stack)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
+    public boolean isValidIn(ItemStack stack) {
+        for (MetalSmelterRecipe recipe : recipes) {
+            if (recipe != null && recipe.valid(stack)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<ItemStack> outputs(ItemStack input) {
+        List<ItemStack> ret = new ArrayList<>();
+        ret.add(output);
+        return outputs;
+    }
 }
