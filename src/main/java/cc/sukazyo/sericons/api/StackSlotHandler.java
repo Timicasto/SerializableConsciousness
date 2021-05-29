@@ -44,7 +44,7 @@ public class StackSlotHandler implements IItemHandlerModifiable {
     @NotNull
     @Override
     public ItemStack getStackInSlot(int i) {
-        return this.wrapper.slots().get(this.index + i);
+        return this.wrapper.slots().get(this.index);
     }
 
     @NotNull
