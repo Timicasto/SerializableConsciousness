@@ -23,23 +23,30 @@ public class MetalSmelterMenu extends AbstractContainerMenu {
     private final MetalSmelterTileEntity smelter;
     private MetalSmelterTileEntity.MetalSmelterItemIntArray array;
 
+
     // client
     public MetalSmelterMenu(int containerId, Inventory inv, FriendlyByteBuf buf) {
         super(RegistryBlocks.METAL_SMELTER_MENU, containerId);
         BlockEntity t = inv.player.level.getBlockEntity(buf.readBlockPos());
         smelter = t instanceof MetalSmelterTileEntity ? (MetalSmelterTileEntity) t : null;
+        Container container = new SimpleContainer(smelter.slots.toArray(new ItemStack[]{}));
+        this.addSlot(new Slot(container, 0, 20, 32));
+        this.addSlot(new Slot(container, 1, 60, 32));
+        this.addSlot(new Slot(container, 2, 20, 60));
+        this.addSlot(new Slot(container, 3, 60, 60));
+        layoutPlayerInventorySlots(inv, 8, 84);
     }
 
     // server
-    public MetalSmelterMenu(int containerId, Inventory inv, MetalSmelterTileEntity tile, MetalSmelterTileEntity.MetalSmelterItemIntArray array) {
+    public MetalSmelterMenu(int containerId, Inventory inv, Container container, MetalSmelterTileEntity tile, MetalSmelterTileEntity.MetalSmelterItemIntArray array) {
         super(RegistryBlocks.METAL_SMELTER_MENU, containerId);
         this.array = array;
         addDataSlots(array);
         smelter = tile;
-        this.addSlot(new SlotItemHandler(smelter.getItemHandler(0), 0, 20, 32));
-        this.addSlot(new SlotItemHandler(smelter.getItemHandler(1), 1, 60, 32));
-        this.addSlot(new SlotItemHandler(smelter.getItemHandler(2), 2, 20, 60));
-        this.addSlot(new SlotItemHandler(smelter.getItemHandler(3), 3, 60, 60));
+        this.addSlot(new Slot(container, 0, 20, 32));
+        this.addSlot(new Slot(container, 1, 60, 32));
+        this.addSlot(new Slot(container, 2, 20, 60));
+        this.addSlot(new Slot(container, 3, 60, 60));
         layoutPlayerInventorySlots(inv, 8, 84);
     }
 

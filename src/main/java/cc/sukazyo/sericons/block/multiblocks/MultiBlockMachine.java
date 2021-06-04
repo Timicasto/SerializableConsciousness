@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -44,6 +45,9 @@ public class MultiBlockMachine extends MultiBlockTemplateBlock<EnumMachines> {
             SeriConsMod.LOGGER.info("UseBlock: {} {}", t, pos);
             switch (state.getValue(StatePropertiesHandler.TYPES)) {
                 case METAL_SMELTER:
+                    if (player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL && ((MetalSmelterTileEntity)t).random.nextBoolean()) {
+                        ((MetalSmelterTileEntity)t).makeTempIncrease();
+                    }
                     NetworkHooks.openGui((ServerPlayer) player, (MetalSmelterTileEntity) t, pos);
                     return InteractionResult.SUCCESS;
             }

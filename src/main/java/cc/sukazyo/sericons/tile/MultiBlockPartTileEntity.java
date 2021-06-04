@@ -105,6 +105,7 @@ public abstract class MultiBlockPartTileEntity<T extends MultiBlockPartTileEntit
     }
 
     // END DATA PROCESSING
+
     // START FLUID MANAGEMENT
     @Nonnull
     protected abstract IFluidTank[] getAccessibleFluidTanks(Direction side);

@@ -12,11 +12,11 @@ public class DataUtils {
 
     public static List<ItemStack> readSlots(ListTag tag, int size) {
         List<ItemStack> ret = new ArrayList<>();
-        int count = (int) tag.stream().count();
+        int count = tag.size();
         for (int i = 0; i < count; i++) {
             CompoundTag compound = tag.getCompound(i);
             int slot = compound.getByte("Slot") & 255;
-            if (slot >= 0 && slot < size) {
+            if (slot < size) {
                 ret.set(slot, ItemStack.of(compound));
             }
         }

@@ -1,7 +1,6 @@
 package cc.sukazyo.sericons.tile;
 
 import cc.sukazyo.sericons.SeriConsMod;
-import cc.sukazyo.sericons.api.StackSlotHandler;
 import cc.sukazyo.sericons.api.energy.EnergyWrapper;
 import cc.sukazyo.sericons.api.utils.DataUtils;
 import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
@@ -10,34 +9,43 @@ import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.asm.RuntimeEnumExtender;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSmelterTileEntity, MetalSmelterRecipe> implements MenuProvider{
+public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSmelterTileEntity> implements MenuProvider {
     // This Field is Only for Testing.
     boolean first = true;
 
+    private int progress;
+    private int validFuel;
+    private boolean isWorking;
+    private boolean isTempIncreasing;
+    private int temp;
+    public Random random = new Random();
+    public Container container = new SimpleContainer(4);
 
 
     public MetalSmelterTileEntity() {
@@ -51,8 +59,9 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
     public void readCustomNBT(CompoundTag nbt, boolean desc) {
         super.readCustomNBT(nbt, desc);
         if (!desc) {
-            slots = DataUtils.readSlots(nbt.getList("slots", 10), 26);
+            slots = DataUtils.readSlots(nbt.getList("Slots", 10), 26);
         }
+
     }
 
     @Override
@@ -67,7 +76,6 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
 
     @Override
     public void tick() {
-        super.tick();
         if (first) {
             SeriConsMod.LOGGER.info("Created MetalSmelter TileEntity, This Log is for Testing");
             first = false;
@@ -77,38 +85,57 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
             this.array.set(1, this.slots.get(1).getCount());
             this.array.set(2, this.slots.get(2).getCount());
             this.array.set(3, this.slots.get(3).getCount());
-            if (!isDummy() && !disabled()) {
-                if (this.queue.size() < this.maxQueueLength()) {
-                    Set<Integer> usedSlots = new HashSet<>();
-                    for (Process<MetalSmelterRecipe> process : queue) {
-                        if (process instanceof ProcessInside) {
-                            for (int i : ((ProcessInside<MetalSmelterRecipe>) process).inSlots) {
-                                usedSlots.add(i);
-                            }
-                        }
-                    }
-                    if (!slots.isEmpty() && !usedSlots.contains(0)) {
-                        ItemStack stack = this.slots.get(0);
-                        MetalSmelterRecipe recipe = MetalSmelterRecipe.searchByIn(stack);
-                        if (recipe != null) {
-                            MetalSmelterProcess process = new MetalSmelterProcess(recipe, 0, 1, 2);
-                            if (this.addTask(process, true)) {
-                                this.addTask(process, false);
-                                usedSlots.add(0);
-                            }
-                        }
-                    }
+            ItemStack input = ore.getStackInSlot(0);
+            if (isTempIncreasing) {
+                if (validFuel > 0) {
+                    ++temp;
+                    --validFuel;
+                } else {
+                    isTempIncreasing = false;
                 }
             }
+            if (temp >= 950) {
+                isWorking = true;
+                isTempIncreasing = false;
+            } else {
+                isWorking = false;
+            }
+
+            if (validFuel <= 1) {
+                if (fuel.getStackInSlot(0).getItem() == MetalSmelterRecipe.getChanger(input).getItem() && fuel.getStackInSlot(0).getCount() >= 1) {
+                    fuel.extractItem(0, 1, false);
+                    setChanged();
+                    validFuel += 3200;
+                }else {
+                    return;
+                }
+            }
+
+
+            if (isWorking && validFuel > 0 && !isTempIncreasing) {
+                ItemStack resutl = MetalSmelterRecipe.getResult(input);
+                ++progress;
+                --validFuel;
+                if (progress >= MetalSmelterRecipe.getTime(input) + random.nextInt(200)) {
+                    int count = resutl.getCount() - random.nextInt(resutl.getCount() - 1);
+                    slag.insertItem(0, MetalSmelterRecipe.getSlag(input), false);
+                    BlockPos pos = getPosFromIndex(10).offset(0, -1, 0).relative(facing.getOpposite(), 2);
+                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(resutl.getItem(), count)));
+                    ore.extractItem(0, 1, false);
+                    fuel.extractItem(0, MetalSmelterRecipe.getChanger(input).getCount(), false);
+                    setChanged();
+                    progress = 0;
+                }
+                SeriConsMod.LOGGER.info("current out : " + resutl.toString());
+            }
         }
+        SeriConsMod.LOGGER.info("current progress : " + progress);
+        SeriConsMod.LOGGER.info("current temp : " + temp);
+        SeriConsMod.LOGGER.info("current fuel : " + validFuel);
     }
 
-
-
-
-    @Override
-    protected MetalSmelterRecipe readRecipe(CompoundTag tag) {
-        return null;
+    public void makeTempIncrease() {
+        isTempIncreasing = true;
     }
 
     @Override
@@ -119,70 +146,6 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
     @Override
     public int[] redstonePos() {
         return new int[] {137};
-    }
-
-    @Override
-    public IFluidTank[] tanks() {
-        return new IFluidTank[0];
-    }
-
-    @Override
-    public MetalSmelterRecipe searchRecipe(ItemStack insertion) {
-        return null;
-    }
-
-    @Override
-    public int[] outSlots() {
-        return new int[] {3};
-    }
-
-    @Override
-    public int[] outTanks() {
-        return new int[0];
-    }
-
-    @Override
-    public boolean additionalCheck(Process<MetalSmelterRecipe> process) {
-        return true;
-    }
-
-    @Override
-    public void output(ItemStack out) {
-        BlockPos pos = getPosFromIndex(10).offset(0, -1, 0).relative(facing.getOpposite(), 2);
-        level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), out));
-    }
-
-    @Override
-    public void outFluid(FluidStack out) {
-
-    }
-
-    @Override
-    public void pop(Process<MetalSmelterRecipe> process) {
-        if (!process.recipe.slag.isEmpty()) {
-            BlockPos pos = getPosFromIndex(10).offset(0, -1, 0).relative(facing.getOpposite(), 2);
-            level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), process.recipe.slag));
-        }
-    }
-
-    @Override
-    public int maxProcessPerTick() {
-        return 8;
-    }
-
-    @Override
-    public int maxQueueLength() {
-        return 8;
-    }
-
-    @Override
-    public float minProcessDistance(Process process) {
-        return 0;
-    }
-
-    @Override
-    public boolean outSideMachine() {
-        return false;
     }
 
     @Override
@@ -231,17 +194,17 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
         return new float[0];
     }
 
-    StackSlotHandler ore = new StackSlotHandler(1, this, 0, true, true) {
+    ItemStackHandler ore = new ItemStackHandler(1) {
         @Override
-        public int getSlotLimit(int i) {
+        protected int getStackLimit(int slot, @NotNull ItemStack stack) {
             return 8;
         }
     };
-    StackSlotHandler changer = new StackSlotHandler(1, this, 1, true, false);
-    StackSlotHandler fuel = new StackSlotHandler(1, this, 2, true, false);
-    StackSlotHandler out = new StackSlotHandler(1, this, 3, false, true);
+    ItemStackHandler changer = new ItemStackHandler(1);
+    ItemStackHandler fuel = new ItemStackHandler(1);
+    ItemStackHandler slag = new ItemStackHandler(1);
 
-    public StackSlotHandler getItemHandler(int index) {
+    public ItemStackHandler getItemHandler(int index) {
         switch (index) {
             case 0:
                 return ore;
@@ -250,7 +213,7 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
             case 2:
                 return fuel;
             case 3:
-                return out;
+                return slag;
         }
         return null;
     }
@@ -265,7 +228,7 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
             }
             switch (pos) {
                 case 10:
-                    return LazyOptional.of(() -> (T) out);
+                    return LazyOptional.of(() -> (T) slag);
                 case 137:
                     return LazyOptional.of(() -> (T) ore);
                 case 138:
@@ -285,21 +248,10 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inv, Player player) {
-        return new MetalSmelterMenu(containerId, inv, this, array);
+        container = new SimpleContainer(slots.toArray(new ItemStack[]{}));
+        return new MetalSmelterMenu(containerId, inv, container, this, array);
     }
 
-    public static class MetalSmelterProcess extends ProcessInside<MetalSmelterRecipe> {
-
-        public MetalSmelterProcess(MetalSmelterRecipe recipe, int... inSlots) {
-            super(recipe, inSlots);
-        }
-
-        @Override
-        protected List<ItemStack> outputs(MultiBlockMachineTileEntity te) {
-            ItemStack in = te.slots().get(this.inSlots[0]);
-            return recipe.outputs(in);
-        }
-    }
 
     public static class MetalSmelterItemIntArray implements ContainerData {
         int i1 = 0;
