@@ -11,4 +11,7 @@ public class RegistryItems {
     public static final Item FELDSPAR = Items.AIR;
 
     public static final Item FELDSPAR_UGLY_DUST = Items.AIR;
+    public static final Item COARSE_SILICON = Items.AIR;
+
+    public static final Item BUCKET_STEAM = Items.AIR;
 }

@@ -15,13 +15,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class MultiBlockMachineTileEntity<T extends MultiBlockMachineTileEntity<T>> extends MultiBlockPartTileEntity<T> implements IItemSlotWrapper, IToolboxInteractive, IMultiDirectional, IEnergyConnector {
+import java.util.Map;
+
+public abstract class MultiBlockMachineTileEntity<T extends MultiBlockMachineTileEntity<T>> extends MultiBlockPartTileEntity<T> implements IItemSlotWrapper, IToolboxInteractive, IMultiDirectional, IEnergyConnector, TickableBlockEntity {
     public final EnergyWrapper.CustomEnergyStorage energyStorage;
     protected final boolean canBeControlled;
     protected boolean invertControl;

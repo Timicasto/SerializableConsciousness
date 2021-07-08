@@ -16,12 +16,17 @@ public class RegistryBlocks {
 
     public static final Block FELDSPAR = Blocks.AIR;
     public static final Block CREATIVE_ENERGY = Blocks.AIR;
+    public static final Block CHALCOPYRITE = Blocks.AIR;
+    public static final Block BOILER = Blocks.AIR;
 
     public static final Block MULTIBLOCK_MACHINE = Blocks.AIR;
 
     public static final BlockEntityType<?> METAL_SMELTER = BlockEntityType.FURNACE;
     public static final BlockEntityType<?> CREATIVE_ENERGY_PROVIDER = BlockEntityType.FURNACE;
+    @ObjectHolder("boiler")
+    public static final BlockEntityType<?> BOILER_TILE_ENTITY = BlockEntityType.FURNACE;
 
     @ObjectHolder("metal_smelter")
     public static final MenuType<MetalSmelterMenu> METAL_SMELTER_MENU = null;
+
 }

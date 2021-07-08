@@ -2,23 +2,29 @@ package cc.sukazyo.sericons.register;
 
 import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.api.multiblock.MultiBlockRegistryHandler;
+import cc.sukazyo.sericons.block.BoilerBlock;
+import cc.sukazyo.sericons.block.ChalcopyriteBlock;
 import cc.sukazyo.sericons.block.CreativeEnergyProviderBlock;
 import cc.sukazyo.sericons.block.FeldsparBlock;
 import cc.sukazyo.sericons.block.multiblocks.MultiBlockMachine;
 import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
 import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
+import cc.sukazyo.sericons.item.CoarseSiliconItem;
 import cc.sukazyo.sericons.item.FeldsparUglyDustItem;
 import cc.sukazyo.sericons.loot.ModLootTables;
 import cc.sukazyo.sericons.screen.MetalSmelterScreen;
+import cc.sukazyo.sericons.tile.BoilerTileEntity;
 import cc.sukazyo.sericons.tile.CreativeEnergyProviderTileEntity;
 import cc.sukazyo.sericons.tile.MetalSmelterTileEntity;
 import cc.sukazyo.sericons.world.OreGen;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,6 +65,15 @@ public final class Registration {
         reg.register(new FeldsparBlock().setRegistryName("feldspar"));
         reg.register(new MultiBlockMachine().setRegistryName("multiblock_machine"));
         reg.register(new CreativeEnergyProviderBlock().setRegistryName("creative_energy"));
+        reg.register(new ChalcopyriteBlock().setRegistryName("chalcopyrite"));
+        reg.register(new BoilerBlock().setRegistryName("boiler"));
+    }
+
+    @SubscribeEvent
+    public static void registerFluids(final RegistryEvent.Register<Fluid> e) {
+        e.getRegistry().registerAll(
+
+        );
     }
 
     @SubscribeEvent
@@ -67,7 +82,9 @@ public final class Registration {
                 BlockEntityType.Builder.of(MetalSmelterTileEntity::new, RegistryBlocks.MULTIBLOCK_MACHINE)
                         .build(null).setRegistryName("metal_smelter"),
                 BlockEntityType.Builder.of(CreativeEnergyProviderTileEntity::new, RegistryBlocks.CREATIVE_ENERGY)
-                        .build(null).setRegistryName("creative_energy_provider")
+                        .build(null).setRegistryName("creative_energy_provider"),
+                BlockEntityType.Builder.of(BoilerTileEntity::new, RegistryBlocks.BOILER)
+                        .build(null).setRegistryName("boiler")
         );
     }
 
@@ -78,6 +95,8 @@ public final class Registration {
         Item.Properties props = new Item.Properties().tab(CREATIVE_TAB);
         reg.register(new BlockItem(RegistryBlocks.FELDSPAR, props).setRegistryName("feldspar"));
         reg.register(new FeldsparUglyDustItem(props).setRegistryName("feldspar_ugly_dust"));
+        reg.register(new CoarseSiliconItem().setRegistryName("coarse_silicon"));
+        reg.register(new BucketItem(() -> RegistryFluids.steam, new Item.Properties().tab(CREATIVE_TAB).stacksTo(1)).setRegistryName("bucket_steam"));
     }
 
     @SubscribeEvent

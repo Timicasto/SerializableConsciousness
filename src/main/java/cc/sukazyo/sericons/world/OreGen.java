@@ -22,11 +22,14 @@ import javax.annotation.Nonnull;
 public class OreGen {
 
     private static ConfiguredFeature<?, ?> FELDSPAR;
+    private static ConfiguredFeature<?, ?> CHALCOPYRITE;
 
     public static void initFeatures() {
         if (ModLoader.isLoadingStateValid()) {
             FELDSPAR = getOreFeature(Feature.ORE, RegistryBlocks.FELDSPAR, "feldspar_vein",
-                    new OreConfig(12, 0, 35, 20, 8));
+                    new OreConfig(12, 0, 35, 12, 3));
+            CHALCOPYRITE = getOreFeature(Feature.ORE, RegistryBlocks.CHALCOPYRITE, "chalcopyrite_vein",
+                    new OreConfig(20, 0, 48, 35, 2));
         }
     }
 
@@ -36,6 +39,7 @@ public class OreGen {
                 category != Biome.BiomeCategory.NETHER &&
                 category != Biome.BiomeCategory.NONE) {
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FELDSPAR);
+            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, CHALCOPYRITE);
         }
     }
 

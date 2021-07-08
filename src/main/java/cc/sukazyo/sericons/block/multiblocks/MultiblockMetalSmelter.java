@@ -138,7 +138,7 @@ public class MultiblockMetalSmelter implements MultiBlockRegistryHandler.IMultib
                                 MetalSmelterTileEntity te = (MetalSmelterTileEntity)current;
                                 te.facing = direction;
                                 te.formed = true;
-                                te.pos = y * 25 + x * 5 + (z + 2);
+                                te.pos = (y + 1) * 25 + x * 5 + (z + 2);
                                 te.offset = new int[]{(direction == Direction.WEST ? -z + 2 : direction == Direction.EAST ? z - 2 : direction == Direction.NORTH ? zz : -zz), y - 1, (direction == Direction.NORTH ? -z + 2 : direction == Direction.SOUTH ? z - 2 : direction == Direction.EAST ? zz : -zz)};
                                 te.mirrored = mirrored;
                                 te.setChanged();
