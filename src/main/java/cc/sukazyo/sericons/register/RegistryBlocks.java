@@ -18,6 +18,8 @@ public class RegistryBlocks {
     public static final Block CREATIVE_ENERGY = Blocks.AIR;
     public static final Block CHALCOPYRITE = Blocks.AIR;
     public static final Block BOILER = Blocks.AIR;
+    public static final Block STEAM_TURBINE = Blocks.AIR;
+    public static final Block GENERATOR = Blocks.AIR;
 
     public static final Block MULTIBLOCK_MACHINE = Blocks.AIR;
 
@@ -28,5 +30,11 @@ public class RegistryBlocks {
 
     @ObjectHolder("metal_smelter")
     public static final MenuType<MetalSmelterMenu> METAL_SMELTER_MENU = null;
+
+    @ObjectHolder("steam_turbine")
+    public static final BlockEntityType<?> STEAM_TURBINE_TILE_ENTITY = BlockEntityType.FURNACE;
+
+    @ObjectHolder("generator")
+    public static final BlockEntityType<?> GENERATOR_TILE_ENTITY = BlockEntityType.FURNACE;
 
 }

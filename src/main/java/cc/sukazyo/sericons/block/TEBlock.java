@@ -83,6 +83,8 @@ public class TEBlock<E extends Enum<E> & IEnumPropertyBlock> extends TemplateBlo
     protected Direction defaultFacing() {
         return Direction.NORTH;
     }
+
+
 }
 
 
