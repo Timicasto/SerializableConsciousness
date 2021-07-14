@@ -97,6 +97,7 @@ public final class Registration {
 
         Item.Properties props = new Item.Properties().tab(CREATIVE_TAB);
         reg.register(new BlockItem(RegistryBlocks.FELDSPAR, props).setRegistryName("feldspar"));
+        reg.register(new BlockItem(RegistryBlocks.CHALCOPYRITE, props).setRegistryName("chalcopyrite"));
         reg.register(new BlockItem(RegistryBlocks.STEAM_TURBINE, props).setRegistryName("steam_turbine"));
         reg.register(new BlockItem(RegistryBlocks.BOILER, props).setRegistryName("boiler"));
         reg.register(new FeldsparUglyDustItem(props).setRegistryName("feldspar_ugly_dust"));

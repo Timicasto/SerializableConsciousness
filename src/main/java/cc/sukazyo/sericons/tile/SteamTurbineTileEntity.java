@@ -3,15 +3,11 @@ package cc.sukazyo.sericons.tile;
 import cc.sukazyo.sericons.kinetic.KineticStorage;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import cc.sukazyo.sericons.util.PerlinNoiseGenerator;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SteamTurbineTileEntity extends BlockEntity implements TickableBlockEntity {
 
@@ -52,7 +48,5 @@ public class SteamTurbineTileEntity extends BlockEntity implements TickableBlock
                 i = 0;
             }
         }
-        System.out.println("Current Gas: " + handler.getFluidInTank(0).getDisplayName() + " * " + handler.getFluidInTank(0).getAmount());
-        System.out.println("Current Output: " + storage.getkCurrent());
     }
 }

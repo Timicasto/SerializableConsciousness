@@ -2,7 +2,6 @@ package cc.sukazyo.sericons.world;
 
 import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.register.RegistryBlocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -27,9 +26,9 @@ public class OreGen {
     public static void initFeatures() {
         if (ModLoader.isLoadingStateValid()) {
             FELDSPAR = getOreFeature(Feature.ORE, RegistryBlocks.FELDSPAR, "feldspar_vein",
-                    new OreConfig(12, 0, 35, 12, 3));
+                    new OreConfig(12, 0, 35, 35, 3));
             CHALCOPYRITE = getOreFeature(Feature.ORE, RegistryBlocks.CHALCOPYRITE, "chalcopyrite_vein",
-                    new OreConfig(20, 0, 48, 35, 2));
+                    new OreConfig(20, 0, 48, 12, 2));
         }
     }
 

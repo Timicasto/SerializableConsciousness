@@ -9,12 +9,10 @@ import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -24,7 +22,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
@@ -129,9 +126,6 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
                 SeriConsMod.LOGGER.info("current out : " + resutl.toString());
             }
         }
-        SeriConsMod.LOGGER.info("current progress : " + progress);
-        SeriConsMod.LOGGER.info("current temp : " + temp);
-        SeriConsMod.LOGGER.info("current fuel : " + validFuel);
     }
 
     public void makeTempIncrease() {

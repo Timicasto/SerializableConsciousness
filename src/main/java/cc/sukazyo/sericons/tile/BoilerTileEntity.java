@@ -4,7 +4,6 @@ import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import cc.sukazyo.sericons.register.RegistryFluids;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -65,9 +64,6 @@ public class BoilerTileEntity extends BlockEntity implements TickableBlockEntity
                 steam.fill(new FluidStack(RegistryFluids.steam, 1), IFluidHandler.FluidAction.EXECUTE);
             }
         }
-        System.out.println("Temperature: " + temp);
-        System.out.println("Water: " + tank.getFluidInTank(0).getDisplayName() + " * " + tank.getFluidInTank(0).getAmount());
-        System.out.println("Gas: " + steam.getFluidInTank(0).getDisplayName() + " * " + steam.getFluidInTank(0).getAmount());
     }
 
     @Override
