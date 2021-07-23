@@ -7,6 +7,7 @@ import cc.sukazyo.sericons.block.multiblocks.MultiBlockMachine;
 import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
 import cc.sukazyo.sericons.fluid.SteamFluid;
 import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
+import cc.sukazyo.sericons.item.BionicBodyComponentItem;
 import cc.sukazyo.sericons.item.CoarseSiliconItem;
 import cc.sukazyo.sericons.item.FeldsparUglyDustItem;
 import cc.sukazyo.sericons.loot.ModLootTables;
@@ -65,6 +66,8 @@ public final class Registration {
         reg.register(new BoilerBlock().setRegistryName("boiler"));
         reg.register(new SteamTurbineBlock().setRegistryName("steam_turbine"));
         reg.register(new GeneratorBlock().setRegistryName("generator"));
+        reg.register(new AncientRemainBlock().setRegistryName("ancient_remain"));
+        reg.register(new BodyBinderBlock().setRegistryName("body_binder"));
     }
 
     @SubscribeEvent
@@ -87,7 +90,9 @@ public final class Registration {
                 BlockEntityType.Builder.of(SteamTurbineTileEntity::new, RegistryBlocks.STEAM_TURBINE)
                         .build(null).setRegistryName("steam_turbine"),
                 BlockEntityType.Builder.of(GeneratorTileEntity::new, RegistryBlocks.GENERATOR)
-                        .build(null).setRegistryName("generator")
+                        .build(null).setRegistryName("generator"),
+                BlockEntityType.Builder.of(BodyBinderTileEntity::new, RegistryBlocks.BODY_BINDER)
+                        .build(null).setRegistryName("body_binder")
         );
     }
 
@@ -100,9 +105,11 @@ public final class Registration {
         reg.register(new BlockItem(RegistryBlocks.CHALCOPYRITE, props).setRegistryName("chalcopyrite"));
         reg.register(new BlockItem(RegistryBlocks.STEAM_TURBINE, props).setRegistryName("steam_turbine"));
         reg.register(new BlockItem(RegistryBlocks.BOILER, props).setRegistryName("boiler"));
+        reg.register(new BlockItem(RegistryBlocks.ANCIENT_REMAIN, props).setRegistryName("ancient_remain"));
         reg.register(new FeldsparUglyDustItem(props).setRegistryName("feldspar_ugly_dust"));
         reg.register(new CoarseSiliconItem().setRegistryName("coarse_silicon"));
         reg.register(new BucketItem(() -> RegistryFluids.steam, props.stacksTo(1)).setRegistryName("bucket_steam"));
+        reg.register(new BionicBodyComponentItem().setRegistryName("bionic_body_component"));
     }
 
     @SubscribeEvent

@@ -20,6 +20,8 @@ public class RegistryBlocks {
     public static final Block BOILER = Blocks.AIR;
     public static final Block STEAM_TURBINE = Blocks.AIR;
     public static final Block GENERATOR = Blocks.AIR;
+    public static final Block ANCIENT_REMAIN = Blocks.AIR;
+    public static final Block BODY_BINDER = Blocks.AIR;
 
     public static final Block MULTIBLOCK_MACHINE = Blocks.AIR;
 
@@ -36,5 +38,8 @@ public class RegistryBlocks {
 
     @ObjectHolder("generator")
     public static final BlockEntityType<?> GENERATOR_TILE_ENTITY = BlockEntityType.FURNACE;
+
+    @ObjectHolder("body_binder")
+    public static final BlockEntityType<?> BODY_BINDER_BLOCK_ENTITY = BlockEntityType.FURNACE;
 
 }

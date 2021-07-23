@@ -22,6 +22,7 @@ public class OreGen {
 
     private static ConfiguredFeature<?, ?> FELDSPAR;
     private static ConfiguredFeature<?, ?> CHALCOPYRITE;
+    private static ConfiguredFeature<?, ?> ANCIENT_REMAIN;
 
     public static void initFeatures() {
         if (ModLoader.isLoadingStateValid()) {
@@ -29,6 +30,8 @@ public class OreGen {
                     new OreConfig(12, 0, 35, 35, 3));
             CHALCOPYRITE = getOreFeature(Feature.ORE, RegistryBlocks.CHALCOPYRITE, "chalcopyrite_vein",
                     new OreConfig(20, 0, 48, 12, 2));
+            ANCIENT_REMAIN = getOreFeature(Feature.ORE, RegistryBlocks.ANCIENT_REMAIN, "ancient_remain",
+                    new OreConfig(12, 0, 20, 2, 2));
         }
     }
 
@@ -39,6 +42,7 @@ public class OreGen {
                 category != Biome.BiomeCategory.NONE) {
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, FELDSPAR);
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, CHALCOPYRITE);
+            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ANCIENT_REMAIN);
         }
     }
 
