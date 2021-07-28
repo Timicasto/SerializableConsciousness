@@ -74,7 +74,6 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
     @Override
     public void tick() {
         if (first) {
-            SeriConsMod.LOGGER.info("Created MetalSmelter TileEntity, This Log is for Testing");
             first = false;
         }
         if (!level.isClientSide) {
@@ -123,7 +122,6 @@ public class MetalSmelterTileEntity extends MultiBlockMachineTileEntity<MetalSme
                     setChanged();
                     progress = 0;
                 }
-                SeriConsMod.LOGGER.info("current out : " + resutl.toString());
             }
         }
     }

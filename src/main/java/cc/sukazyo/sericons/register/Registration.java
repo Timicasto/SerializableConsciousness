@@ -106,6 +106,7 @@ public final class Registration {
         reg.register(new BlockItem(RegistryBlocks.STEAM_TURBINE, props).setRegistryName("steam_turbine"));
         reg.register(new BlockItem(RegistryBlocks.BOILER, props).setRegistryName("boiler"));
         reg.register(new BlockItem(RegistryBlocks.ANCIENT_REMAIN, props).setRegistryName("ancient_remain"));
+        reg.register(new BlockItem(RegistryBlocks.BODY_BINDER, props).setRegistryName("body_binder"));
         reg.register(new FeldsparUglyDustItem(props).setRegistryName("feldspar_ugly_dust"));
         reg.register(new CoarseSiliconItem().setRegistryName("coarse_silicon"));
         reg.register(new BucketItem(() -> RegistryFluids.steam, props.stacksTo(1)).setRegistryName("bucket_steam"));

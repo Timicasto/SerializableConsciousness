@@ -41,6 +41,26 @@ public class GeneratorTileEntity extends BlockEntity implements TickableBlockEnt
         storage.receiveEnergy((int) (kinetic.kCurrent / 5), false);
     }
 
+    private final Queue<Direction> queue = Queues.newArrayDeque(Direction.Plane.HORIZONTAL);
+
+    private void transferEnergy(@NotNull Level level) {
+        this.queue.offer(this.queue.remove());
+        for (Direction direction : queue) {
+            BlockEntity te = level.getBlockEntity(this.getBlockPos().relative(direction));
+            if (te != null) {
+                te.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).ifPresent(e -> {
+                    if (e.canReceive()) {
+                        int diff = e.receiveEnergy(Math.min(500, this.storage.getEnergyStored()), false);
+                        if (diff != 0) {
+                            this.storage.extractEnergy(this.storage.getEnergyStored() - diff, false);
+                            this.setChanged();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @NotNull
     @Override

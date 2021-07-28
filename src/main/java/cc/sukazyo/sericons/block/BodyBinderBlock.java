@@ -38,6 +38,7 @@ public class BodyBinderBlock extends Block {
         if (entity instanceof BodyBinderTileEntity) {
             if (player.getItemInHand(hand).getItem() == RegistryItems.BIONIC_BODY_COMPONENT) {
                 ((BodyBinderTileEntity)entity).component.insertItem(0, new ItemStack(RegistryItems.BIONIC_BODY_COMPONENT, 1), false);
+                player.getItemInHand(hand).shrink(1);
             }
         }
         return InteractionResult.SUCCESS;
