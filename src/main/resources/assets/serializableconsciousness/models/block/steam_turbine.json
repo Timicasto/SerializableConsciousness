@@ -1,0 +1,5 @@
+{
+	"loader": "forge:obj",
+	"model": "serializableconsciousness:models/block/steam_turbine.obj",
+	"flip-v": true
+}

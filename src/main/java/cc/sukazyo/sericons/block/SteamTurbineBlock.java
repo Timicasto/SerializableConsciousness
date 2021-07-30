@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class SteamTurbineBlock extends Block {
     public SteamTurbineBlock() {
-        super(Properties.of(Material.METAL));
+        super(Properties.of(Material.METAL).strength(2.5F).noOcclusion());
     }
 
     @Override

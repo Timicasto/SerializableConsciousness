@@ -1,0 +1,14 @@
+{
+	"itemGroup.serializableconsciousness": "Serializable Consciousness",
+	"block.serializableconsciousness.feldspar": "Feldspar",
+	"block.serializableconsciousness.chalcopyrite": "Chalcopyrite",
+	"block.serializableconsciousness.steam_turbine": "Turbine",
+	"block.serializableconsciousness.boiler": "Boiler",
+	"block.serializableconsciousness.generator": "Generator",
+	"block.serializableconsciousness.ancient_remain": "Ancient Remain",
+	"block.serializableconsciousness.body_binder": "Body Binder",
+	"item.serializableconsciousness.feldspar_ugly_dust": "Feldspar Dust",
+	"item.serializableconsciousness.bucket_steam": "Steam Bucket",
+	"item.serializableconsciousness.bionic_body_component": "Bionic Body Component",
+	"gui.serializableconsciousness.durability": "Body Durability"
+}

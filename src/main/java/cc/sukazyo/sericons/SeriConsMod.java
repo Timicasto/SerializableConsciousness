@@ -24,7 +24,5 @@ public class SeriConsMod {
 
     public SeriConsMod() {
         MetalSmelterRecipe.register(new ItemStack(Items.IRON_INGOT, 8), new ItemStack(Blocks.IRON_ORE, 1), new ItemStack(Items.GLOWSTONE_DUST, 1), new ItemStack(Items.COAL, 1), 1200);
-        MetalSmelterRecipe.register(new ItemStack(RegistryItems.COARSE_SILICON, 2), new ItemStack(Blocks.SAND, 1), new ItemStack(Items.BONE), new ItemStack(Items.COAL, 4), 6000);
-
     }
 }

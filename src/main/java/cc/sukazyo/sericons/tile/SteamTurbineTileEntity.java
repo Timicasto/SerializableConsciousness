@@ -27,8 +27,8 @@ public class SteamTurbineTileEntity extends BlockEntity implements TickableBlock
 
     @Override
     public void tick() {
-        if (level.getBlockEntity(getBlockPos().east()) instanceof BoilerTileEntity) {
-            BoilerTileEntity te = (BoilerTileEntity) level.getBlockEntity(getBlockPos().east());
+        if (level.getBlockEntity(getBlockPos().north()) instanceof BoilerTileEntity) {
+            BoilerTileEntity te = (BoilerTileEntity) level.getBlockEntity(getBlockPos().north());
             FluidStack steam = te.steam.getFluidInTank(0);
             handler.fill(steam, IFluidHandler.FluidAction.EXECUTE);
             te.steam.drain(steam, IFluidHandler.FluidAction.EXECUTE);

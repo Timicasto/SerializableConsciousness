@@ -7,6 +7,7 @@ import cc.sukazyo.sericons.register.RegistryBlocks;
 import cc.sukazyo.sericons.register.RegistryItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,8 +15,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +59,7 @@ public class BodyBinderTileEntity extends BlockEntity implements TickableBlockEn
                     if (tar.getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().durability() <= 0.5) {
                         tar.getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().setDurability(1);
                         component.getStackInSlot(0).shrink(8);
+                        storage.extractEnergy(2000, false);
                     }
                 }
             }
@@ -69,5 +75,15 @@ public class BodyBinderTileEntity extends BlockEntity implements TickableBlockEn
     @Override
     public void deserializeNBT(CompoundTag nbt) {
 
+    }
+
+    @SuppressWarnings("unchecked")
+    @NotNull
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityEnergy.ENERGY) {
+            return LazyOptional.of(() -> (T)storage);
+        }
+        return LazyOptional.empty();
     }
 }

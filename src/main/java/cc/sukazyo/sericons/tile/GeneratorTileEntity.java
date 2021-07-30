@@ -39,6 +39,7 @@ public class GeneratorTileEntity extends BlockEntity implements TickableBlockEnt
     public void tick() {
         findValidTurbine(level);
         storage.receiveEnergy((int) (kinetic.kCurrent / 5), false);
+        transferEnergy(level);
     }
 
     private final Queue<Direction> queue = Queues.newArrayDeque(Direction.Plane.HORIZONTAL);

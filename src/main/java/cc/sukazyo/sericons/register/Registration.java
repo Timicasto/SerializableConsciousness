@@ -8,13 +8,11 @@ import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
 import cc.sukazyo.sericons.fluid.SteamFluid;
 import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import cc.sukazyo.sericons.item.BionicBodyComponentItem;
-import cc.sukazyo.sericons.item.CoarseSiliconItem;
 import cc.sukazyo.sericons.item.FeldsparUglyDustItem;
 import cc.sukazyo.sericons.loot.ModLootTables;
 import cc.sukazyo.sericons.screen.MetalSmelterScreen;
 import cc.sukazyo.sericons.tile.*;
 import cc.sukazyo.sericons.world.OreGen;
-import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.inventory.MenuType;
@@ -107,8 +105,8 @@ public final class Registration {
         reg.register(new BlockItem(RegistryBlocks.BOILER, props).setRegistryName("boiler"));
         reg.register(new BlockItem(RegistryBlocks.ANCIENT_REMAIN, props).setRegistryName("ancient_remain"));
         reg.register(new BlockItem(RegistryBlocks.BODY_BINDER, props).setRegistryName("body_binder"));
+        reg.register(new BlockItem(RegistryBlocks.GENERATOR, props).setRegistryName("generator"));
         reg.register(new FeldsparUglyDustItem(props).setRegistryName("feldspar_ugly_dust"));
-        reg.register(new CoarseSiliconItem().setRegistryName("coarse_silicon"));
         reg.register(new BucketItem(() -> RegistryFluids.steam, props.stacksTo(1)).setRegistryName("bucket_steam"));
         reg.register(new BionicBodyComponentItem().setRegistryName("bionic_body_component"));
     }

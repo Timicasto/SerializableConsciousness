@@ -22,7 +22,7 @@ public class BoilerTileEntity extends BlockEntity implements TickableBlockEntity
     public final IFluidHandler tank = new FluidTank(8000), steam = new FluidTank(40000);
     public int temp = 30;
 
-    private boolean running, isTempIncreasing, output;
+    public boolean running, isTempIncreasing, output;
 
     public BoilerTileEntity() {
         super(RegistryBlocks.BOILER_TILE_ENTITY);

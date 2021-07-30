@@ -1,12 +1,15 @@
 package cc.sukazyo.sericons.block;
 
+import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.register.RegistryItems;
 import cc.sukazyo.sericons.tile.BodyBinderTileEntity;
+import cc.sukazyo.sericons.tile.GeneratorTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -39,6 +42,11 @@ public class BodyBinderBlock extends Block {
             if (player.getItemInHand(hand).getItem() == RegistryItems.BIONIC_BODY_COMPONENT) {
                 ((BodyBinderTileEntity)entity).component.insertItem(0, new ItemStack(RegistryItems.BIONIC_BODY_COMPONENT, 1), false);
                 player.getItemInHand(hand).shrink(1);
+            }
+
+            if (player.getItemInHand(hand).getItem() == Items.STICK) {
+                BodyBinderTileEntity boiler = (BodyBinderTileEntity) entity;
+                SeriConsMod.LOGGER.info("FE: " + boiler.storage.getEnergyStored());
             }
         }
         return InteractionResult.SUCCESS;

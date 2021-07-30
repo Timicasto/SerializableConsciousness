@@ -1,0 +1,14 @@
+{
+	"itemGroup.serializableconsciousness": "Serializable Consciousness",
+	"block.serializableconsciousness.feldspar": "长石",
+	"block.serializableconsciousness.chalcopyrite": "黄铜矿",
+	"block.serializableconsciousness.steam_turbine": "涡轮机",
+	"block.serializableconsciousness.boiler": "锅炉",
+	"block.serializableconsciousness.generator": "发电机",
+	"block.serializableconsciousness.ancient_remain": "上古遗骸",
+	"block.serializableconsciousness.body_binder": "仿体绑定器",
+	"item.serializableconsciousness.feldspar_ugly_dust": "长石碎",
+	"item.serializableconsciousness.bucket_steam": "蒸汽桶",
+	"item.serializableconsciousness.bionic_body_component": "仿体部件",
+	"gui.serializableconsciousness.durability": "仿体耐久"
+}

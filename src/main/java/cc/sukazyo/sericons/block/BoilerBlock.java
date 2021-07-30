@@ -1,5 +1,6 @@
 package cc.sukazyo.sericons.block;
 
+import cc.sukazyo.sericons.SeriConsMod;
 import cc.sukazyo.sericons.register.RegistryBlocks;
 import cc.sukazyo.sericons.tile.BoilerTileEntity;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BoilerBlock extends Block {
     public BoilerBlock() {
-        super(Properties.of(Material.METAL));
+        super(Properties.of(Material.METAL).strength(3F).noOcclusion());
     }
 
     @Override
@@ -51,6 +52,10 @@ public class BoilerBlock extends Block {
         if (player.getItemInHand(hand).getItem() == Items.WATER_BUCKET) {
             player.setItemInHand(hand, new ItemStack(Items.BUCKET));
             ((BoilerTileEntity)te).tank.fill(new FluidStack(Fluids.WATER, 1000), IFluidHandler.FluidAction.EXECUTE);
+        }
+        if (player.getItemInHand(hand).getItem() == Items.STICK) {
+            BoilerTileEntity boiler = (BoilerTileEntity)te;
+            SeriConsMod.LOGGER.info("water: " + boiler.tank.getFluidInTank(0).getAmount() + ", steam: " + boiler.steam.getFluidInTank(0).getAmount() + ", fuel: " + boiler.fuel + ", State: " + boiler.running);
         }
         return InteractionResult.SUCCESS;
     }
