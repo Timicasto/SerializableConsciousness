@@ -1,10 +1,13 @@
 package cc.sukazyo.sericons.capabilities;
 
 import cc.sukazyo.sericons.SeriConsMod;
+import cc.sukazyo.sericons.network.BodyDurabilityUpdatePacket;
+import cc.sukazyo.sericons.network.NetworkChannel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
@@ -16,6 +19,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 @Mod.EventBusSubscriber()
@@ -53,7 +57,7 @@ public class Capabilities {
     public static void clone(PlayerEvent.Clone e) {
         if (!e.isWasDeath() && e.getPlayer().getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().isPresent()) {
             e.getPlayer().getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().setDurability(1D);
-            Minecraft.getInstance().player.getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().deserializeNBT(e.getPlayer().getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().serializeNBT());
+            NetworkChannel.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer)e.getPlayer()), new BodyDurabilityUpdatePacket(e.getPlayer().getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().durability()));
         }
     }
 }

@@ -15,10 +15,7 @@ public class HUDHelper {
         if (e.getType() != RenderGameOverlayEvent.ElementType.ALL) {
             return;
         }
-        if (Minecraft.getInstance().player == null || !Minecraft.getInstance().player.getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().isPresent() || Minecraft.getInstance().player.getCapability(Capabilities.BODY_DURATION_CAPABILITY).resolve().get().durability() == 0) {
-            return;
-        }
-        BodyOverlay gui = new BodyOverlay(Minecraft.getInstance().player, e.getMatrixStack());
+        BodyOverlay gui = new BodyOverlay(e.getMatrixStack());
         gui.render();
     }
 

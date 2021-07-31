@@ -27,7 +27,6 @@ public abstract class TemplateBlock<E extends Enum<E> & IEnumPropertyBlock> exte
     public final Property[] additional;
     public final E[] values;
     boolean[] hasFlavor;
-    protected Set<RenderType> layers = Sets.newHashSet(RenderType.solid());
     protected Set<RenderType>[] stateTypes;
     protected Map<BlockState, Integer> opacities;
     protected Map<BlockState, Float> strength;

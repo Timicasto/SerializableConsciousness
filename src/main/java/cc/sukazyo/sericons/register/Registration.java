@@ -5,11 +5,13 @@ import cc.sukazyo.sericons.api.multiblock.MultiBlockRegistryHandler;
 import cc.sukazyo.sericons.block.*;
 import cc.sukazyo.sericons.block.multiblocks.MultiBlockMachine;
 import cc.sukazyo.sericons.block.multiblocks.MultiblockMetalSmelter;
+import cc.sukazyo.sericons.crafting.MetalSmelterRecipe;
 import cc.sukazyo.sericons.fluid.SteamFluid;
 import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import cc.sukazyo.sericons.item.BionicBodyComponentItem;
 import cc.sukazyo.sericons.item.FeldsparUglyDustItem;
 import cc.sukazyo.sericons.loot.ModLootTables;
+import cc.sukazyo.sericons.network.NetworkChannel;
 import cc.sukazyo.sericons.screen.MetalSmelterScreen;
 import cc.sukazyo.sericons.tile.*;
 import cc.sukazyo.sericons.world.OreGen;
@@ -18,6 +20,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,6 +39,12 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = SeriConsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class Registration {
+
+    @SubscribeEvent
+    public static void onSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(NetworkChannel::regPacket);
+        MetalSmelterRecipe.register(new ItemStack(Items.IRON_INGOT, 8), new ItemStack(Blocks.IRON_ORE, 1), new ItemStack(Items.GLOWSTONE_DUST, 1), new ItemStack(Items.COAL, 1), 600);
+    }
 
     public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(SeriConsMod.MODID) {
         @Override
