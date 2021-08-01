@@ -39,12 +39,12 @@ public abstract class SteamFluid extends FlowingFluid {
 
     @Override
     public Fluid getFlowing() {
-        return RegistryFluids.steam_flowing;
+        return RegistryFluids.STEAM_FLUID_FLOWING;
     }
 
     @Override
     public Fluid getSource() {
-        return RegistryFluids.steam;
+        return RegistryFluids.STEAM_FLUID;
     }
 
     @Override

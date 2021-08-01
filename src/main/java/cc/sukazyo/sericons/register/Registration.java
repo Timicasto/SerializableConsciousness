@@ -17,18 +17,24 @@ import cc.sukazyo.sericons.tile.*;
 import cc.sukazyo.sericons.world.OreGen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -39,6 +45,9 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = SeriConsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class Registration {
+
+    public static final ResourceLocation still = new ResourceLocation(SeriConsMod.MODID, "steam_still");
+    public static final ResourceLocation flowing = new ResourceLocation(SeriConsMod.MODID, "steam_flowing");
 
     @SubscribeEvent
     public static void onSetup(FMLCommonSetupEvent event) {
@@ -75,14 +84,14 @@ public final class Registration {
         reg.register(new GeneratorBlock().setRegistryName("generator"));
         reg.register(new AncientRemainBlock().setRegistryName("ancient_remain"));
         reg.register(new BodyBinderBlock().setRegistryName("body_binder"));
+        reg.register(new LiquidBlock(() -> RegistryFluids.STEAM_FLUID, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100F).noDrops()).setRegistryName("steam_block"));
     }
 
     @SubscribeEvent
     public static void registerFluids(final RegistryEvent.Register<Fluid> e) {
-        e.getRegistry().registerAll(
-                new SteamFluid.Source().setRegistryName("steam"),
-                new SteamFluid.Flowing().setRegistryName("steam_flowing")
-        );
+        ForgeFlowingFluid.Properties p = new ForgeFlowingFluid.Properties(() -> RegistryFluids.STEAM_FLUID, () -> RegistryFluids.STEAM_FLUID_FLOWING, FluidAttributes.builder(still, flowing).color(0xFFCFCFF).density(400).viscosity(400)).bucket(() -> RegistryItems.BUCKET_STEAM).block(() -> RegistryBlocks.STEAM_BLOCK).slopeFindDistance(3).explosionResistance(100);
+        e.getRegistry().register(new ForgeFlowingFluid.Source(p).setRegistryName("steam_fluid"));
+        e.getRegistry().register(new ForgeFlowingFluid.Flowing(p).setRegistryName("steam_fluid_flowing"));
     }
 
     @SubscribeEvent
@@ -116,7 +125,7 @@ public final class Registration {
         reg.register(new BlockItem(RegistryBlocks.BODY_BINDER, props).setRegistryName("body_binder"));
         reg.register(new BlockItem(RegistryBlocks.GENERATOR, props).setRegistryName("generator"));
         reg.register(new FeldsparUglyDustItem(props).setRegistryName("feldspar_ugly_dust"));
-        reg.register(new BucketItem(() -> RegistryFluids.steam, props.stacksTo(1)).setRegistryName("bucket_steam"));
+        reg.register(new BucketItem(() -> RegistryFluids.STEAM_FLUID, props.stacksTo(1)).setRegistryName("bucket_steam"));
         reg.register(new BionicBodyComponentItem().setRegistryName("bionic_body_component"));
     }
 

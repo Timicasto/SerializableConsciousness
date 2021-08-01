@@ -61,7 +61,7 @@ public class BoilerTileEntity extends BlockEntity implements TickableBlockEntity
 
             if (output && tank.getFluidInTank(0).getAmount() > 0) {
                 tank.drain(1, IFluidHandler.FluidAction.EXECUTE);
-                steam.fill(new FluidStack(RegistryFluids.steam, 1), IFluidHandler.FluidAction.EXECUTE);
+                steam.fill(new FluidStack(RegistryFluids.STEAM_FLUID, 1), IFluidHandler.FluidAction.EXECUTE);
             }
         }
     }

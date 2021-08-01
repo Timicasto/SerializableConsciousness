@@ -5,7 +5,9 @@ import cc.sukazyo.sericons.inventory.MetalSmelterMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ObjectHolder;
 
 /**
@@ -23,6 +25,7 @@ public class RegistryBlocks {
     public static final Block ANCIENT_REMAIN = Blocks.AIR;
     public static final Block BODY_BINDER = Blocks.AIR;
 
+    public static final LiquidBlock STEAM_BLOCK = null;
     public static final Block MULTIBLOCK_MACHINE = Blocks.AIR;
 
     public static final BlockEntityType<?> METAL_SMELTER = BlockEntityType.FURNACE;
