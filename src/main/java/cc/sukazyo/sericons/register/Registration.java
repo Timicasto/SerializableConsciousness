@@ -58,7 +58,7 @@ public final class Registration {
     public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab(SeriConsMod.MODID) {
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(Items.PUMPKIN);
+            return new ItemStack(RegistryBlocks.FELDSPAR);
         }
     };
 
