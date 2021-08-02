@@ -6,9 +6,9 @@
 		"2": "serializableconsciousness:block/boiler/west",
 		"3": "serializableconsciousness:block/boiler/south",
 		"4": "serializableconsciousness:block/boiler/bottom",
-		"5": "serializableconsciousness:block/block/global",
+		"5": "serializableconsciousness:block/boiler/global",
 		"6": "serializableconsciousness:block/boiler/east",
-		"particle": "block/global"
+		"particle": "serializableconsciousness:block/boiler/global"
 	},
 	"elements": [
 		{

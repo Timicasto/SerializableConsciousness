@@ -1,0 +1,5 @@
+{
+	"loader": "forge:obj",
+	"model": "serializableconsciousness:models/block/generator.obj",
+	"flip-v": true
+}

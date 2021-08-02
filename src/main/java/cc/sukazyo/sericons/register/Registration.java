@@ -46,8 +46,8 @@ import javax.annotation.Nonnull;
 @Mod.EventBusSubscriber(modid = SeriConsMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class Registration {
 
-    public static final ResourceLocation still = new ResourceLocation(SeriConsMod.MODID, "steam_still");
-    public static final ResourceLocation flowing = new ResourceLocation(SeriConsMod.MODID, "steam_flowing");
+    public static final ResourceLocation still = new ResourceLocation(SeriConsMod.MODID, "block/steam_still");
+    public static final ResourceLocation flowing = new ResourceLocation(SeriConsMod.MODID, "block/steam_flowing");
 
     @SubscribeEvent
     public static void onSetup(FMLCommonSetupEvent event) {
