@@ -10,6 +10,7 @@ license="GNU Generic Public License 3"
     authors="Timicasto, Sukazyo, BloCamLimb"
     credits=""
     description='''
+        http://timicasto.sukazyo.cc:12000/TeaCon/intro.html
     '''
 
 [[dependencies.serializableconsciousness]]

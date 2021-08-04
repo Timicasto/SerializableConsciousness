@@ -11,5 +11,6 @@
 	"item.serializableconsciousness.bucket_steam": "Steam Bucket",
 	"item.serializableconsciousness.bionic_body_component": "Bionic Body Component",
 	"gui.serializableconsciousness.durability": "Body Durability",
-	"message.serializableconsciousness.login": "请~~务必务必务必~~前往 http://timicasto.sukazyo.cc:12000/TeaCon/intro.html 查看作品介绍~!"
+	"message.serializableconsciousness.login": "请~~务必务必务必~~前往 http://timicasto.sukazyo.cc:12000/TeaCon/intro.html 查看作品介绍~!",
+	"key.display": "Display HUD"
 }
